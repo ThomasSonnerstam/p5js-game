@@ -1,83 +1,59 @@
-// let x = 50;
-// let y = 600;
-// let vel = 1;
-// const gravity = 0.8;
 let player;
 let platform;
 let GRAVITY = 1;
-let JUMP = 15;
-let velocity = velocity + GRAVITY;
+let JUMP = 20;
+let bg;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  player = createSprite(50, windowHeight - 100, 20, 20);
+  player = createSprite(50, windowHeight - 400, 20, 20);
   player.addAnimation("static", "assets/sprites/player.png");
   frameRate(60);
-
-  
+  bg = loadImage("/assets/sprites/supermario.png");
 }
-
-// class Player {
-
-//   constructor(x, y, diameter) {
-//       this.x = x;
-//       this.y = y;
-//       this.diameter = diameter;
-//   }
-
-//   drawCircle() {
-//       circle(this.x, this.y, this.diameter = 40);
-//   }
-// }
   
 function draw() {
-  background(247, 134, 84);
+  background(bg);
   player.setCollider("circle", 0, 0, 20);
-  // player.setDefaultCollider();
   drawSprites();
-  // platform = rect(0, windowHeight - 40, windowWidth, 40);
-  // platform.setCollider("rectangle", windowWidth/2, 20, 0, 0);
-  // platform.setDefaultCollider();
 
   
-  player.velocity.y = 5;
+  player.velocity.y += GRAVITY;
+  player.velocity.x = 0;
 
-  if (player.y >= windowHeight - 20) {
+  if (player.y >= windowHeight - 25) {
     player.velocity.y = 0;
   }
 
-  // if(player.collide(platform)) {
-  //   player.velocity.y = 0;
-  // }
+  
 
+  if (keyIsDown(RIGHT_ARROW)) {
+    if (player.x >= windowWidth - 25) {
+      player.velocity.x = 0;
+    } else {
+      player.velocity.x += 5;
+    }
+  }
 
-  // const player = new Player(x, y);
-  // player.drawCircle(); 
+  if (keyIsDown(LEFT_ARROW)) {
+    if (player.x <= 25) {
+      player.velocity.x = 0;
+    } else {
+      player.velocity.x -= 5;
 
-  // vel += gravity;
-  // y += vel;
-
-
-  // if (y >= windowHeight) {
-  //   y = windowHeight - 20;
-  // }
-
-  // if (y <= 0 + 20) {
-  //   vel += vel;
-  // }
+    }
+  }
   
 }
 
+function keyPressed() {
+  if (player.y >= windowHeight - 25 && keyCode === UP_ARROW) {
+    player.velocity.y = -JUMP; 
+  }
 
+  
 
-
-// function keyPressed() {
-//   if (y >= windowHeight - 20 && keyCode === UP_ARROW) {
-//     vel -= 20;
-    
-//   }
-
-// }
+}
 
 
 

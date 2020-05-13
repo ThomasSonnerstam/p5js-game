@@ -25,7 +25,7 @@ function draw() {
   player.velocity.x = 0;
 
 
-  // Stops the player vertical speed if the player reaches the bottom of the canvas.
+  // Stops the player vertical speed if the player reaches the bottom of the canvas
   if (player.y >= windowHeight - 25) {
     player.velocity.y = 0;
   }

@@ -27,7 +27,7 @@ function setup() {
   coins = new Group();
   coin1 = createSprite(350, windowHeight - 270, 10, 10);
   coin2 = createSprite(750, windowHeight - 300, 10, 10);
-  coin3 = createSprite(windowWidth - 300, windowHeight - 270, 10, 10);
+  coin3 = createSprite(windowWidth - 30, windowHeight - 90, 10, 10);
   // coin4 = createSprite(350, windowHeight - 270, 10, 10);
   // coin5 = createSprite(350, windowHeight - 270, 10, 10);
   // coin6 = createSprite(350, windowHeight - 270, 10, 10);
@@ -39,7 +39,7 @@ function setup() {
   // Adds coins to sprite group
   coins.add(coin1);
   coins.add(coin2);
-  // coins.add(coin3);
+  coins.add(coin3);
   // coins.add(coin4);
   // coins.add(coin5);
   // coins.add(coin6);
@@ -56,9 +56,6 @@ function setup() {
     obstacles.add(spear);
   }, 1000)
 
-
-  
-  
   // Obstacle sprites
   obstacles = new Group();
   obstacle1 = createSprite(150, windowHeight - 35, 70, 30);
@@ -137,7 +134,6 @@ function draw() {
   if (coins.overlap(player, removeSprite)) {
     score++;
   }
-  // coins.overlap(player, removeSprite);
 
   drawSprites();
 }

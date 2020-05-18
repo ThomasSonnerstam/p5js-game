@@ -26,12 +26,19 @@ function setup() {
   // Collectable coins
   coins = new Group();
   coin1 = createSprite(350, windowHeight - 270, 10, 10);
+  coin1.addAnimation("coin", "assets/sprites/coin.png");
   coin2 = createSprite(750, windowHeight - 300, 10, 10);
+  coin2.addAnimation("coin", "assets/sprites/coin.png");
   coin3 = createSprite(windowWidth - 30, windowHeight - 90, 10, 10);
-  // coin4 = createSprite(350, windowHeight - 270, 10, 10);
-  // coin5 = createSprite(350, windowHeight - 270, 10, 10);
-  // coin6 = createSprite(350, windowHeight - 270, 10, 10);
-  // coin7 = createSprite(350, windowHeight - 270, 10, 10);
+  coin3.addAnimation("coin", "assets/sprites/coin.png");
+  coin4 = createSprite(windowWidth - 40, windowHeight - 450, 10, 10);
+  coin4.addAnimation("coin", "assets/sprites/coin.png");
+  coin5 = createSprite(50, windowHeight - 600, 10, 10);
+  coin5.addAnimation("coin", "assets/sprites/coin.png");
+  coin6 = createSprite(450, windowHeight - 680, 10, 10);
+  coin6.addAnimation("coin", "assets/sprites/coin.png");
+  coin7 = createSprite(600, windowHeight - 520, 10, 10);
+  coin7.addAnimation("coin", "assets/sprites/coin.png");
   // coin8 = createSprite(350, windowHeight - 270, 10, 10);
   // coin9 = createSprite(350, windowHeight - 270, 10, 10);
   // coin10 = createSprite(350, windowHeight - 270, 10, 10);
@@ -40,20 +47,20 @@ function setup() {
   coins.add(coin1);
   coins.add(coin2);
   coins.add(coin3);
-  // coins.add(coin4);
-  // coins.add(coin5);
-  // coins.add(coin6);
-  // coins.add(coin7);
+  coins.add(coin4);
+  coins.add(coin5);
+  coins.add(coin6);
+  coins.add(coin7);
   // coins.add(coin8);
   // coins.add(coin9);
   // coins.add(coin10);
 
   // Spear obstacles
   setInterval(() => {
-    const spear = createSprite(50, windowHeight - 350, 60, 5);
-    spear.shapeColor = "red";
-    spear.velocity.x = 5;
-    obstacles.add(spear);
+    // const spear = createSprite(50, windowHeight - 350, 60, 5);
+    // spear.shapeColor = "red";
+    // spear.velocity.x = 5;
+    // obstacles.add(spear);
   }, 1000)
 
   // Obstacle sprites
@@ -69,8 +76,24 @@ function setup() {
   obstacle9 = createSprite(950, windowHeight - 310, 15, 15);
   obstacle15 = createSprite(300, windowHeight - 370, 15, 15);
   obstacle16 = createSprite(200, windowHeight - 450, 100, 10);
-  obstacle17 = createSprite(50, windowHeight - 450, 10, 10);  
-  obstacle18 = createSprite(windowWidth - 50, windowHeight - 50, 100, 100);  
+  obstacle17 = createSprite(50, windowHeight - 450, 15, 10);  
+  obstacle18 = createSprite(windowWidth - 50, windowHeight - 50, 100, 100); // Displaced block bottom right corner
+  obstacle19 = createSprite(300, windowHeight - 600, 100, 10);  
+  obstacle20 = createSprite(450, windowHeight - 600, 10, 10);
+  obstacle21 = createSprite(600, windowHeight - 500, 70, 10);
+  obstacle22 = createSprite(750, windowHeight - 550, 20, 10);
+  obstacle23 = createSprite(880, windowHeight - 550, 20, 10);
+
+
+  setInterval(() => {
+    const spear = createSprite(50, windowHeight - 350, 60, 5);
+    spear.shapeColor = "red";
+    spear.velocity.x = 5;
+    obstacles.add(spear);
+    obstacle16.rotation += 90;
+    obstacle19.rotation += 90;
+    obstacle21.rotation += 90;
+  }, 1000)
   
   // Obstacles sprites added to the collider group
   obstacles.add(obstacle1);
@@ -85,6 +108,12 @@ function setup() {
   obstacles.add(obstacle15);
   obstacles.add(obstacle16);
   obstacles.add(obstacle17);
+  obstacles.add(obstacle19);
+  obstacles.add(obstacle20);
+  obstacles.add(obstacle21);
+  obstacles.add(obstacle22);
+  obstacles.add(obstacle23);
+
   
 
   // Background image
@@ -127,10 +156,11 @@ function draw() {
 
   // Obstacle movement
   player.displace(obstacle18);
-  obstacle16.rotation -= 1;
+  // obstacle16.rotation -= 1;
 
   // Player and obstacle collision
   player.collide(obstacles);
+
   if (coins.overlap(player, removeSprite)) {
     score++;
   }

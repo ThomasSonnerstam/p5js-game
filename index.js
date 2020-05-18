@@ -1,7 +1,6 @@
 let player;
-let obstacle;
 let GRAVITY = 1;
-let JUMP = 20;
+let JUMP = 15;
 let bg;
 
 function setup() {
@@ -11,13 +10,26 @@ function setup() {
   // Player sprite & collider
   player = createSprite(50, windowHeight - 400, 20, 20);
   player.addAnimation("default", "assets/sprites/ghost-right.png");
-  player.setCollider("circle", 0, 0, 20);
-  // Obstacle sprite(s) and collider(s)
-  obstacle = createSprite(600, windowHeight - 35, 50, 70);
-  obstacle.shapeColor = color(255, 123, 0);
-  obstacle.setCollider("rectangle");
+  // Obstacle sprite(s)
+  obstacles = new Group();
+  obstacle = createSprite(150, windowHeight - 35, 70, 30);
+  obstacle2 = createSprite(350, windowHeight - 75, 70, 30);
+  obstacle3 = createSprite(550, windowHeight - 115, 70, 30);
+  obstacle4 = createSprite(750, windowHeight - 145, 70, 30);
+  obstacle5 = createSprite(950, windowHeight - 185, 70, 30);
+  
+  obstacles.add(obstacle);
+  obstacles.add(obstacle2);
+  obstacles.add(obstacle3);
+  obstacles.add(obstacle4);
+  obstacles.add(obstacle5);
   // Background image
   bg = loadImage("/assets/sprites/supermario.png");
+
+  console.log(obstacles.length);
+  
+  
+  
 }
   
 function draw() {
@@ -51,7 +63,10 @@ function draw() {
   }
 
   // Player and obstacle collision
-  player.collide(obstacle);
+  
+  player.collide(obstacles);
+
+  
   
   
   drawSprites();
@@ -59,11 +74,13 @@ function draw() {
 
 // Makes the player jump
 function keyPressed() {
-
   if ((player.velocity.y === 0 || player.velocity.y === 1) && keyCode === UP_ARROW) {
     player.velocity.y = -JUMP;
   }
 }
+
+
+
 
 
 

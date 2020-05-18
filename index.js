@@ -11,17 +11,20 @@ function setup() {
   frameRate(60);
   // Canvas size
   createCanvas(windowWidth, windowHeight);
+
+  // Background image
+  bg = loadImage("/assets/sprites/supermario.png");
+
   // Player sprite
   player = createSprite(50, windowHeight - 400, 15, 15);
   player.addAnimation("default", "assets/sprites/ghost-right.png");
 
-  /**
-   *  Removes the coin sprites when the player touches it.
-   */
-  function removeSprite() {
-    this.remove();
-    score++;
-  }
+  // Finish flag sprite
+  flag = createSprite(windowWidth - 100, windowHeight - 620, 60, 30);
+  flag.addAnimation("flag", "assets/sprites/flag.png")
+
+  // Fake block
+  fakeBlock = new Group();
 
   // Collectable coins
   coins = new Group();
@@ -41,8 +44,10 @@ function setup() {
   coin7.addAnimation("coin", "assets/sprites/coin.png");
   coin8 = createSprite(950, windowHeight - 140, 10, 10);
   coin8.addAnimation("coin", "assets/sprites/coin.png");
-  // coin9 = createSprite(350, windowHeight - 270, 10, 10);
-  // coin10 = createSprite(350, windowHeight - 270, 10, 10);
+  coin9 = createSprite(1300, windowHeight - 350, 10, 10);
+  coin9.addAnimation("coin", "assets/sprites/coin.png");
+  coin10 = createSprite(1250, windowHeight - 620, 10, 10);
+  coin10.addAnimation("coin", "assets/sprites/coin.png");
 
   // Adds coins to sprite group
   coins.add(coin1);
@@ -53,8 +58,8 @@ function setup() {
   coins.add(coin6);
   coins.add(coin7);
   coins.add(coin8);
-  // coins.add(coin9);
-  // coins.add(coin10);
+  coins.add(coin9);
+  coins.add(coin10);
 
   // Obstacle sprites
   obstacles = new Group();
@@ -75,8 +80,14 @@ function setup() {
   obstacle20 = createSprite(450, windowHeight - 600, 10, 10);
   obstacle21 = createSprite(600, windowHeight - 500, 70, 10);
   obstacle22 = createSprite(750, windowHeight - 550, 20, 10);
-  obstacle23 = createSprite(880, windowHeight - 550, 20, 10);
+  obstacle23 = createSprite(850, windowHeight - 550, 20, 10);
+  obstacle24 = createSprite(1050, windowHeight - 600, 130, 10);
+  obstacle24.rotation = -35;
+  obstacle25 = createSprite(1250, windowHeight - 600, 250, 10);
+  obstacle26 = createSprite(930, windowHeight - 550, 20, 10);
+  fakeBlock.add(obstacle26);
 
+  // Obstacle colors
   obstacle1.shapeColor = "black";
   obstacle2.shapeColor = "black";
   obstacle3.shapeColor = "black";
@@ -95,18 +106,9 @@ function setup() {
   obstacle21.shapeColor = "black";
   obstacle22.shapeColor = "black";
   obstacle23.shapeColor = "black";
-
-
-
-  setInterval(() => {
-    const spear = createSprite(50, windowHeight - 350, 60, 5);
-    spear.shapeColor = "red";
-    spear.velocity.x = 5;
-    obstacles.add(spear);
-    obstacle16.rotation += 90;
-    obstacle19.rotation += 90;
-    obstacle21.rotation += 90;
-  }, 1000)
+  obstacle24.shapeColor = "black";
+  obstacle25.shapeColor = "black";
+  obstacle26.shapeColor = "black";
   
   // Obstacles sprites added to the collider group
   obstacles.add(obstacle1);
@@ -126,23 +128,37 @@ function setup() {
   obstacles.add(obstacle21);
   obstacles.add(obstacle22);
   obstacles.add(obstacle23);
+  obstacles.add(obstacle24);
+  obstacles.add(obstacle25);
 
-  
+  // Rotating obstacles + red spears
+  setInterval(() => {
+    obstacle16.rotation += 90;
+    obstacle19.rotation += 90;
+    obstacle21.rotation += 90;
+  }, 1800)
+  }
 
-  // Background image
-  bg = loadImage("/assets/sprites/supermario.png");
-}
+  setInterval(() => {
+    const spear = createSprite(50, windowHeight - 350, 60, 5);
+    spear.shapeColor = "red";
+    spear.velocity.x = 5;
+    obstacles.add(spear);
+  }, 1000)
   
 function draw() {
   background(bg);
-  textSize(48);
+  textSize(35);
   text(`Score: ${score}`, width - 300, 40);
+  
+  if (score === 10) {
+    text("Congratulations! You have beaten the game.", 300, 40);
+  }
+
   // Velocity and gravity constants
   player.velocity.y += GRAVITY;
   player.velocity.x = 0;
 
-  
-  
   // Stops the player vertical speed if the player reaches the bottom of the canvas
   if (player.y >= windowHeight - 25) {
     player.velocity.y = 0;
@@ -159,7 +175,6 @@ function draw() {
   
   // Moves player to the left
   if (keyIsDown(LEFT_ARROW)) {
-
     if (player.x <= 25) {
       player.velocity.x = 0;
     } else {
@@ -167,16 +182,18 @@ function draw() {
     }
   }
 
-  // Obstacle movement
+  // To be able to move the block at the bottom corner
   player.displace(obstacle18);
-  // obstacle16.rotation -= 1;
 
-  // Player and obstacle collision
+  // Player and obstacle group collision
   player.collide(obstacles);
 
+  // If player picks up a coin
   if (coins.overlap(player, removeSprite)) {
     score++;
   }
+
+  if (fakeBlock.overlap(player, removeBlock)); 
 
   drawSprites();
 }
@@ -191,6 +208,10 @@ function keyPressed() {
 function removeSprite() {
   this.remove();
   score++;
+}
+
+function removeBlock() {
+  this.remove();
 }
 
 

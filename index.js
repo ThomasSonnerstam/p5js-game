@@ -39,7 +39,8 @@ function setup() {
   coin6.addAnimation("coin", "assets/sprites/coin.png");
   coin7 = createSprite(600, windowHeight - 520, 10, 10);
   coin7.addAnimation("coin", "assets/sprites/coin.png");
-  // coin8 = createSprite(350, windowHeight - 270, 10, 10);
+  coin8 = createSprite(950, windowHeight - 140, 10, 10);
+  coin8.addAnimation("coin", "assets/sprites/coin.png");
   // coin9 = createSprite(350, windowHeight - 270, 10, 10);
   // coin10 = createSprite(350, windowHeight - 270, 10, 10);
 
@@ -51,17 +52,9 @@ function setup() {
   coins.add(coin5);
   coins.add(coin6);
   coins.add(coin7);
-  // coins.add(coin8);
+  coins.add(coin8);
   // coins.add(coin9);
   // coins.add(coin10);
-
-  // Spear obstacles
-  setInterval(() => {
-    // const spear = createSprite(50, windowHeight - 350, 60, 5);
-    // spear.shapeColor = "red";
-    // spear.velocity.x = 5;
-    // obstacles.add(spear);
-  }, 1000)
 
   // Obstacle sprites
   obstacles = new Group();
@@ -83,6 +76,26 @@ function setup() {
   obstacle21 = createSprite(600, windowHeight - 500, 70, 10);
   obstacle22 = createSprite(750, windowHeight - 550, 20, 10);
   obstacle23 = createSprite(880, windowHeight - 550, 20, 10);
+
+  obstacle1.shapeColor = "black";
+  obstacle2.shapeColor = "black";
+  obstacle3.shapeColor = "black";
+  obstacle4.shapeColor = "black";
+  obstacle5.shapeColor = "black";
+  obstacle6.shapeColor = "black";
+  obstacle7.shapeColor = "black";
+  obstacle8.shapeColor = "black";
+  obstacle9.shapeColor = "black";
+  obstacle15.shapeColor = "black";
+  obstacle16.shapeColor = "black";
+  obstacle17.shapeColor = "black";
+  obstacle18.shapeColor = "black";
+  obstacle19.shapeColor = "black";
+  obstacle20.shapeColor = "black";
+  obstacle21.shapeColor = "black";
+  obstacle22.shapeColor = "black";
+  obstacle23.shapeColor = "black";
+
 
 
   setInterval(() => {

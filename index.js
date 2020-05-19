@@ -20,8 +20,14 @@ function setup() {
   player.addAnimation("default", "assets/sprites/ghost-right.png");
 
   // Finish flag sprite
-  flag = createSprite(windowWidth - 100, windowHeight - 620, 60, 30);
+  flag = createSprite(1320, windowHeight - 620, 60, 30);
   flag.addAnimation("flag", "assets/sprites/flag.png")
+
+  // Ground
+  groundCollision = new Group();
+  ground = createSprite(0, windowHeight, windowWidth*5, 1);
+  groundCollision.add(ground);
+  ground.shapeColor = "red";
 
   // Fake block
   fakeBlock = new Group();
@@ -32,15 +38,15 @@ function setup() {
   coin1.addAnimation("coin", "assets/sprites/coin.png");
   coin2 = createSprite(750, windowHeight - 300, 10, 10);
   coin2.addAnimation("coin", "assets/sprites/coin.png");
-  coin3 = createSprite(windowWidth - 30, windowHeight - 90, 10, 10);
+  coin3 = createSprite(1380, windowHeight - 80, 10, 10);
   coin3.addAnimation("coin", "assets/sprites/coin.png");
-  coin4 = createSprite(windowWidth - 40, windowHeight - 450, 10, 10);
+  coin4 = createSprite(1380, windowHeight - 450, 10, 10);
   coin4.addAnimation("coin", "assets/sprites/coin.png");
   coin5 = createSprite(50, windowHeight - 600, 10, 10);
   coin5.addAnimation("coin", "assets/sprites/coin.png");
   coin6 = createSprite(450, windowHeight - 680, 10, 10);
   coin6.addAnimation("coin", "assets/sprites/coin.png");
-  coin7 = createSprite(600, windowHeight - 520, 10, 10);
+  coin7 = createSprite(600, windowHeight - 570, 10, 10);
   coin7.addAnimation("coin", "assets/sprites/coin.png");
   coin8 = createSprite(950, windowHeight - 140, 10, 10);
   coin8.addAnimation("coin", "assets/sprites/coin.png");
@@ -65,7 +71,7 @@ function setup() {
   obstacles = new Group();
   obstacle1 = createSprite(150, windowHeight - 35, 70, 30);
   obstacle2 = createSprite(350, windowHeight - 115, 70, 30);
-  obstacle3 = createSprite(550, windowHeight - 115, 20, 20);
+  obstacle3 = createSprite(550, windowHeight - 125, 20, 20);
   obstacle4 = createSprite(750, windowHeight - 145, 70, 30);
   obstacle5 = createSprite(950, windowHeight - 185, 70, 30);
   obstacle6 = createSprite(1150, windowHeight - 225, 20, 20);
@@ -75,10 +81,10 @@ function setup() {
   obstacle15 = createSprite(300, windowHeight - 370, 15, 15);
   obstacle16 = createSprite(200, windowHeight - 450, 100, 10);
   obstacle17 = createSprite(50, windowHeight - 450, 15, 10);  
-  obstacle18 = createSprite(windowWidth - 50, windowHeight - 50, 100, 100); // Displaced block bottom right corner
+  obstacle18 = createSprite(1350, windowHeight - 50.5, 100, 100); // Displaced block bottom right corner
   obstacle19 = createSprite(300, windowHeight - 600, 100, 10);  
   obstacle20 = createSprite(450, windowHeight - 600, 10, 10);
-  obstacle21 = createSprite(600, windowHeight - 500, 70, 10);
+  obstacle21 = createSprite(600, windowHeight - 550, 70, 10);
   obstacle22 = createSprite(750, windowHeight - 550, 20, 10);
   obstacle23 = createSprite(850, windowHeight - 550, 20, 10);
   obstacle24 = createSprite(1050, windowHeight - 600, 130, 10);
@@ -187,6 +193,7 @@ function draw() {
 
   // Player and obstacle group collision
   player.collide(obstacles);
+  player.collide(groundCollision);
 
   // If player picks up a coin
   if (coins.overlap(player, removeSprite)) {

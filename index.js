@@ -2,9 +2,20 @@ let GRAVITY = 1;
 let JUMP = 15;
 let bg;
 let score = 0;
+let walkRight;
+let walkLeft;
+let jumpRight;
+let jumpLeft;
+let isMovingRight;
+let sound;
 
 function preload() {
+  walkRight = loadAnimation("assets/sprites/ghost-right.png");
   walkLeft = loadAnimation("assets/sprites/ghost-left.png");
+  jumpRight = loadAnimation("assets/sprites/ghost-right-jump.png");
+  jumpLeft = loadAnimation("assets/sprites/ghost-left-jump.png");
+  bg = loadImage("/assets/sprites/background.png");
+  sound = new Audio("assets/sounds/coin.mp3");
 }
 
 function setup() {
@@ -13,19 +24,19 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   // Background image
-  bg = loadImage("/assets/sprites/supermario.png");
+  //bg = loadImage("/assets/sprites/supermario.png");
 
   // Player sprite
   player = createSprite(50, windowHeight - 400, 15, 15);
-  player.addAnimation("default", "assets/sprites/ghost-right.png");
+  player.addAnimation("ghost", walkRight);
 
   // Finish flag sprite
   flag = createSprite(1320, windowHeight - 670, 60, 30);
-  flag.addAnimation("flag", "assets/sprites/flag.png")
+  flag.addAnimation("flag", "assets/sprites/flag.png");
 
   // Ground
   groundCollision = new Group();
-  ground = createSprite(0, windowHeight -25, windowWidth*5, 50);
+  ground = createSprite(0, windowHeight - 25, windowWidth * 5, 50);
   groundCollision.add(ground);
   ground.shapeColor = "forestgreen";
 
@@ -80,9 +91,9 @@ function setup() {
   obstacle9 = createSprite(950, windowHeight - 360, 15, 15);
   obstacle15 = createSprite(300, windowHeight - 420, 15, 15);
   obstacle16 = createSprite(200, windowHeight - 500, 100, 10);
-  obstacle17 = createSprite(50, windowHeight - 520, 15, 10);  
-  obstacle18 = createSprite(1350, windowHeight - 100.5, 100, 100); // Displaced block bottom right corner
-  obstacle19 = createSprite(300, windowHeight - 650, 100, 10);  
+  obstacle17 = createSprite(50, windowHeight - 520, 15, 10);
+  obstacle18 = createSprite(1360, windowHeight - 100.5, 100, 100); // Displaced block bottom right corner
+  obstacle19 = createSprite(300, windowHeight - 650, 100, 10);
   obstacle20 = createSprite(450, windowHeight - 650, 10, 10);
   obstacle21 = createSprite(600, windowHeight - 600, 70, 10);
   obstacle22 = createSprite(750, windowHeight - 600, 20, 10);
@@ -106,7 +117,7 @@ function setup() {
   obstacle15.shapeColor = "black";
   obstacle16.shapeColor = "black";
   obstacle17.shapeColor = "black";
-  obstacle18.shapeColor = "black";
+  //obstacle18.shapeColor = "black";
   obstacle19.shapeColor = "black";
   obstacle20.shapeColor = "black";
   obstacle21.shapeColor = "black";
@@ -115,7 +126,8 @@ function setup() {
   obstacle24.shapeColor = "black";
   obstacle25.shapeColor = "black";
   obstacle26.shapeColor = "black";
-  
+  obstacle18.addAnimation("rock", "assets/sprites/rock.png");
+
   // Obstacles sprites added to the collider group
   obstacles.add(obstacle1);
   obstacles.add(obstacle2);
@@ -142,21 +154,21 @@ function setup() {
     obstacle16.rotation += 90;
     obstacle19.rotation += 90;
     obstacle21.rotation += 90;
-  }, 1800)
-  }
+  }, 1800);
+}
 
-  setInterval(() => {
-    const spear = createSprite(50, windowHeight - 400, 60, 5);
-    spear.shapeColor = "red";
-    spear.velocity.x = 5;
-    obstacles.add(spear);
-  }, 1000)
-  
+setInterval(() => {
+  const spear = createSprite(50, windowHeight - 400, 60, 5);
+  spear.shapeColor = "red";
+  spear.velocity.x = 5;
+  obstacles.add(spear);
+}, 1000);
+
 function draw() {
   background(bg);
   textSize(35);
   text(`Score: ${score}`, width - 300, 40);
-  
+
   if (score === 10) {
     text("Congratulations! You have beaten the game.", 300, 40);
   }
@@ -176,15 +188,32 @@ function draw() {
       player.velocity.x = 0;
     } else {
       player.velocity.x += 5;
+      isMovingRight = true;
     }
   }
-  
+
   // Moves player to the left
   if (keyIsDown(LEFT_ARROW)) {
     if (player.x <= 25) {
       player.velocity.x = 0;
     } else {
       player.velocity.x -= 5;
+      isMovingRight = false;
+    }
+  }
+
+  if (player.velocity.x > 0) {
+    player.addAnimation("ghost", walkRight);
+  }
+  if (player.velocity.x < 0) {
+    player.addAnimation("ghost", walkLeft);
+  }
+
+  if (keyIsDown(UP_ARROW)) {
+    if (isMovingRight) {
+      player.addAnimation("ghost", jumpRight);
+    } else {
+      player.addAnimation("ghost", jumpLeft);
     }
   }
 
@@ -197,17 +226,21 @@ function draw() {
 
   // If player picks up a coin
   if (coins.overlap(player, removeSprite)) {
+    sound.play();
     score++;
   }
 
-  if (fakeBlock.overlap(player, removeBlock)); 
+  if (fakeBlock.overlap(player, removeBlock));
 
   drawSprites();
 }
 
 // Makes the player jump
 function keyPressed() {
-  if ((player.velocity.y === 0 || player.velocity.y === 1) && keyCode === UP_ARROW) {
+  if (
+    (player.velocity.y === 0 || player.velocity.y === 1) &&
+    keyCode === UP_ARROW
+  ) {
     player.velocity.y = -JUMP;
   }
 }
@@ -220,20 +253,3 @@ function removeSprite() {
 function removeBlock() {
   this.remove();
 }
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-
-  

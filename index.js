@@ -14,6 +14,7 @@ let rockObstacle;
 let spear;
 let spearCatcher;
 let spearSingle;
+let isPlaying = false;
 
 function preload() {
   walkRight = loadAnimation("assets/sprites/ghost-right.png");
@@ -134,84 +135,97 @@ function setup() {
 
   spearCatcher = createSprite(windowWidth + 10, windowHeight - 400, 20, 20);
 
+  if (!isPlaying) {
+    textSize(48);
+    text("Press ENTER to start game", (windowWidth/3) , windowHeight/2);
+  }
+
+  if (keyCode === ENTER) {
+    isPlaying = true;
+  }
+
 }
 
 function draw() {
 
-  background(bg);
-  textSize(35);
-  text(`Score: ${score}`, width - 300, 40);
+  if (isPlaying) {
 
-  if (score === 10) {
-    text("Congratulations! You have beaten the game.", 300, 40);
-  }
+    background(bg);
+    textSize(35);
+    text(`Score: ${score}`, width - 300, 40);
 
-  // Velocity and gravity constants
-  player.velocity.y += GRAVITY;
-  player.velocity.x = 0;
-
-  // Stops the player vertical speed if the player reaches the bottom of the canvas
-  if (player.y >= windowHeight - 25) {
-    player.velocity.y = 0;
-  }
-
-  // Moves player to the right
-  if (keyIsDown(RIGHT_ARROW)) {
-    if (player.x >= windowWidth - 25) {
-      player.velocity.x = 0;
-    } else {
-      player.velocity.x += 5;
-      isMovingRight = true;
+    if (score === 10) {
+      text("Congratulations! You have beaten the game.", 300, 40);
     }
-  }
 
-  // Moves player to the left
-  if (keyIsDown(LEFT_ARROW)) {
-    if (player.x <= 25) {
-      player.velocity.x = 0;
-    } else {
-      player.velocity.x -= 5;
-      isMovingRight = false;
+    // Velocity and gravity constants
+    player.velocity.y += GRAVITY;
+    player.velocity.x = 0;
+
+    // Stops the player vertical speed if the player reaches the bottom of the canvas
+    if (player.y >= windowHeight - 25) {
+      player.velocity.y = 0;
     }
-  }
 
-  if (player.velocity.x > 0) {
-    player.addAnimation("ghost", walkRight);
-  }
-  if (player.velocity.x < 0) {
-    player.addAnimation("ghost", walkLeft);
-  }
-
-  if (keyIsDown(UP_ARROW)) {
-    if (isMovingRight) {
-      player.addAnimation("ghost", jumpRight);
-    } else {
-      player.addAnimation("ghost", jumpLeft);
+    // Moves player to the right
+    if (keyIsDown(RIGHT_ARROW)) {
+      if (player.x >= windowWidth - 25) {
+        player.velocity.x = 0;
+      } else {
+        player.velocity.x += 5;
+        isMovingRight = true;
+      }
     }
+
+    // Moves player to the left
+    if (keyIsDown(LEFT_ARROW)) {
+      if (player.x <= 25) {
+        player.velocity.x = 0;
+      } else {
+        player.velocity.x -= 5;
+        isMovingRight = false;
+      }
+    }
+
+    if (player.velocity.x > 0) {
+      player.addAnimation("ghost", walkRight);
+    }
+    if (player.velocity.x < 0) {
+      player.addAnimation("ghost", walkLeft);
+    }
+
+    if (keyIsDown(UP_ARROW)) {
+      if (isMovingRight) {
+        player.addAnimation("ghost", jumpRight);
+      } else {
+        player.addAnimation("ghost", jumpLeft);
+      }
+    }
+
+    // To be able to move the block at the bottom corner
+    player.displace(rockObstacle);
+
+    // Player and obstacle group collision
+    player.collide(obstaclesGroup);
+    player.collide(groundCollision);
+
+    // If player picks up a coin
+    if (coinsGroup.overlap(player, removeSprite)) {
+      sound.play();
+      score++;
+    }
+
+    if (fakeBlock.overlap(player, removeSprite));
+
+    // There is a hidden block outside of the screen that removes spear sprites once they've left the screen
+    if (spear.overlap(spearCatcher, removeSprite));
+
+    drawSprites();
   }
-
-  // To be able to move the block at the bottom corner
-  player.displace(rockObstacle);
-
-  // Player and obstacle group collision
-  player.collide(obstaclesGroup);
-  player.collide(groundCollision);
-
-  // If player picks up a coin
-  if (coinsGroup.overlap(player, removeSprite)) {
-    sound.play();
-    score++;
-  }
-
-  if (fakeBlock.overlap(player, removeSprite));
-
-  // There is a hidden block outside of the screen that removes spear sprites once they've left the screen
-  if (spear.overlap(spearCatcher, removeSprite));
-
-  drawSprites();
+  
 }
 
-// Makes the player jump
+// Keyboard event listeners
 function keyPressed() {
   if (
     (player.velocity.y === 0 || player.velocity.y === 1) &&
@@ -219,11 +233,20 @@ function keyPressed() {
   ) {
     player.velocity.y = -JUMP;
   }
+
+  if (keyCode === ENTER) {
+    isPlaying = true;
+  }
 }
 
+// Removes a sprite from the canvas
 function removeSprite() {
   this.remove();
 }
+
+
+
+
 
 
 

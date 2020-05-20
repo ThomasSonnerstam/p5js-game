@@ -11,6 +11,9 @@ let sound;
 let coins;
 let obstacles;
 let rockObstacle;
+let spear;
+let spearCatcher;
+let spearSingle;
 
 function preload() {
   walkRight = loadAnimation("assets/sprites/ghost-right.png");
@@ -118,14 +121,20 @@ function setup() {
     obstacle19.rotation += 90;
     obstacle21.rotation += 90;
   }, 1800);
-}
 
-setInterval(() => {
-  const spear = createSprite(50, windowHeight - 400, 60, 5);
-  spear.shapeColor = "red";
-  spear.velocity.x = 5;
-  obstaclesGroup.add(spear);
-}, 1000);
+  spear = new Group();
+
+  setInterval(() => {
+    spearSingle = createSprite(50, windowHeight - 400, 60, 5);
+    spearSingle.shapeColor = "red";
+    spearSingle.velocity.x = 5;
+    spear.add(spearSingle);
+    obstaclesGroup.add(spearSingle);
+  }, 1000);
+
+  spearCatcher = createSprite(windowWidth + 10, windowHeight - 400, 20, 20);
+
+}
 
 function draw() {
 
@@ -195,6 +204,9 @@ function draw() {
   }
 
   if (fakeBlock.overlap(player, removeSprite));
+
+  // There is a hidden block outside of the screen that removes spear sprites once they've left the screen
+  if (spear.overlap(spearCatcher, removeSprite));
 
   drawSprites();
 }

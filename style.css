@@ -11,6 +11,10 @@ body {
   overflow: hidden;
 }
 
+button {
+  cursor: pointer;
+}
+
 .start-screen {
   height: 100vh;
   width: 100%;

@@ -19,6 +19,7 @@ const startScreen = document.querySelector(".start-screen");
 const gameOver = document.querySelector(".game-over");
 const playAgain = document.querySelector(".play-again");
 const startOver = document.querySelector(".start-over");
+const startBtn = document.querySelector(".start-game");
 
 function startGame() {
   score = 0;
@@ -172,15 +173,8 @@ function draw() {
     text(`Score: ${score}`, width - 300, 40);
 
     if (score === 1) {
-      text("Congratulations! You have beaten the game.", 300, 40);
-
       isPlaying = false;
       gameOver.classList.add("show");
-
-      playAgain.addEventListener("click", () => {
-        restartGame();
-        gameOver.classList.remove("show");
-      });
     }
 
     // Velocity and gravity constants
@@ -249,7 +243,6 @@ function draw() {
     drawSprites();
   }
 
-  console.log(isPlaying);
 }
 
 // Keyboard event listeners
@@ -260,14 +253,28 @@ function keyPressed() {
   ) {
     player.velocity.y = -JUMP;
   }
-
-  if (keyCode === ENTER) {
-    isPlaying = true;
-    startScreen.classList.add("hidden");
-  }
 }
 
 // Removes a sprite from the canvas
 function removeSprite() {
   this.remove();
 }
+
+// Button event listener prompt after collecting all the coins
+startOver.addEventListener("click", () => {
+  isPlaying = false;
+  restartGame();
+});
+
+// Button event listener at the bottom of the screen
+playAgain.addEventListener("click", () => {
+  restartGame();
+  gameOver.classList.remove("show");
+});
+
+// Button event listener in start screen
+startBtn.addEventListener("click", () => {
+  isPlaying = true;
+  startScreen.classList.add("hidden");
+  startOver.classList.remove("hidden");
+})

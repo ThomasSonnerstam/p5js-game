@@ -85,9 +85,16 @@ p {
   left: 10px;
 }
 
+.musicBtn {
+  position: absolute;
+  bottom: 10px;
+  left: 140px;
+}
+
 .play-again,
 .start-over,
-.start-game {
+.start-game,
+.musicBtn {
   width: 100px;
   height: 35px;
   border-radius: 3px;

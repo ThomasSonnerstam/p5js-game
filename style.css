@@ -18,11 +18,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: grey;
+  background-color: #7e9c8e;
   color: white;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   width: 500px;
 }
 
@@ -53,10 +55,19 @@ p {
 }
 
 .game-over-container {
-  background-color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #7e9c8e;
   color: white;
   width: 500px;
   height: 500px;
+  border-radius: 10px;
+}
+
+.game-over-container h1 {
+  margin-bottom: 30px;
 }
 
 .show {
@@ -72,4 +83,26 @@ p {
   position: absolute;
   bottom: 10px;
   left: 10px;
+}
+
+.musicBtn {
+  position: absolute;
+  bottom: 10px;
+  left: 140px;
+}
+
+.play-again,
+.start-over,
+.start-game,
+.musicBtn {
+  width: 100px;
+  height: 35px;
+  border-radius: 3px;
+  border: none;
+  background-color: rgb(64, 112, 83);
+  color: white;
+}
+
+.start-game {
+  align-self: center;
 }

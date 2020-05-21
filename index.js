@@ -1,7 +1,7 @@
 let GRAVITY = 1;
 let JUMP = 15;
 let bg;
-let score = 0;
+let score;
 let walkRight;
 let walkLeft;
 let jumpRight;
@@ -17,6 +17,7 @@ let spearSingle;
 let isPlaying = false;
 
 function startGame() {
+  score = 0;
   // Player sprite
   player = createSprite(50, windowHeight - 400, 15, 15);
   player.addAnimation("ghost", walkRight);
@@ -104,7 +105,7 @@ function startGame() {
   });
 
   // Rotating obstacles + red spears
-  setInterval(() => {
+  rotationInterval = setInterval(() => {
     obstacle16.rotation += 90;
     obstacle19.rotation += 90;
     obstacle21.rotation += 90;
@@ -112,7 +113,7 @@ function startGame() {
 
   spear = new Group();
 
-  setInterval(() => {
+  spearInterval = setInterval(() => {
     spearSingle = createSprite(50, windowHeight - 400, 60, 5);
     spearSingle.shapeColor = "red";
     spearSingle.velocity.x = 5;
@@ -121,6 +122,20 @@ function startGame() {
   }, 1000);
 
   spearCatcher = createSprite(windowWidth + 10, windowHeight - 400, 20, 20);
+}
+
+function restartGame() {
+  coinsGroup.removeSprites();
+  groundCollision.removeSprites();
+  fakeBlock.removeSprites();
+  obstaclesGroup.removeSprites();
+  spear.removeSprites();
+  rockObstacle.remove();
+  player.remove();
+  clearInterval(rotationInterval);
+  clearInterval(spearInterval);
+
+  startGame();
 }
 
 function preload() {
@@ -153,7 +168,10 @@ function draw() {
 
     if (score === 2) {
       text("Congratulations! You have beaten the game.", 300, 40);
+
       //isPlaying = false;
+
+      restartGame();
     }
 
     // Velocity and gravity constants

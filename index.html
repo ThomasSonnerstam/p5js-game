@@ -7,7 +7,36 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h3></h3>
+    <div class="start-screen">
+      <div class="container">
+        <h1>Ghastly Jump</h1>
+        <div class="arrows">
+          <div>
+            <img class="left-arrow" src="assets/sprites/up-arrow.png" alt="">
+            <p>Run left</p>
+          </div>
+          <div>
+            <img src="assets/sprites/up-arrow.png" alt="">
+            <p>Jump</p>
+          </div>
+          <div>
+            <img class="right-arrow" src="assets/sprites/up-arrow.png" alt="">
+            <p>Run right</p>
+          </div>
+        </div>
+        <h1>Press ENTER to start the game.</h1>
+      </div>
+    </div>
+
+    <div class="game-over">
+      <div class="game-over-container">
+        <h1>GAME OVER</h1>
+        <button class="play-again">Play again</button>
+      </div>
+    </div>
+
+    <button class="start-over">Start over</button>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
     <script src="index.js"></script>

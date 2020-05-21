@@ -15,6 +15,10 @@ let spear;
 let spearCatcher;
 let spearSingle;
 let isPlaying = false;
+const startScreen = document.querySelector(".start-screen");
+const gameOver = document.querySelector(".game-over");
+const playAgain = document.querySelector(".play-again");
+const startOver = document.querySelector(".start-over");
 
 function startGame() {
   score = 0;
@@ -125,6 +129,7 @@ function startGame() {
 }
 
 function restartGame() {
+  isPlaying = true;
   coinsGroup.removeSprites();
   groundCollision.removeSprites();
   fakeBlock.removeSprites();
@@ -166,12 +171,16 @@ function draw() {
     textSize(35);
     text(`Score: ${score}`, width - 300, 40);
 
-    if (score === 2) {
+    if (score === 1) {
       text("Congratulations! You have beaten the game.", 300, 40);
 
-      //isPlaying = false;
+      isPlaying = false;
+      gameOver.classList.add("show");
 
-      restartGame();
+      playAgain.addEventListener("click", () => {
+        restartGame();
+        gameOver.classList.remove("show");
+      });
     }
 
     // Velocity and gravity constants
@@ -254,6 +263,7 @@ function keyPressed() {
 
   if (keyCode === ENTER) {
     isPlaying = true;
+    startScreen.classList.add("hidden");
   }
 }
 

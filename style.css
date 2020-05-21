@@ -10,3 +10,66 @@ html,
 body {
   overflow: hidden;
 }
+
+.start-screen {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: grey;
+  color: white;
+}
+
+.container {
+  width: 500px;
+}
+
+h1,
+p {
+  text-align: center;
+}
+
+.arrows {
+  display: flex;
+  justify-content: space-between;
+  margin: 60px;
+}
+
+.hidden {
+  display: none;
+}
+
+.left-arrow {
+  transform: rotate(-90deg);
+}
+.right-arrow {
+  transform: rotate(90deg);
+}
+
+.game-over {
+  display: none;
+}
+
+.game-over-container {
+  background-color: grey;
+  color: white;
+  width: 500px;
+  height: 500px;
+}
+
+.show {
+  position: absolute;
+  top: 20vh;
+  left: 35vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-over {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}

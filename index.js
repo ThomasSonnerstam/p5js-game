@@ -8,24 +8,34 @@ let jumpRight;
 let jumpLeft;
 let isMovingRight;
 let sound;
+let bgmusic;
+let cheering;
 let coins;
 let obstacles;
 let rockObstacle;
 let spear;
 let spearCatcher;
 let spearSingle;
+let time;
+let minutes;
+let seconds;
+let tenthSeconds;
 let isPlaying = false;
 let musicOn = true;
 const startScreen = document.querySelector(".start-screen");
 const gameOver = document.querySelector(".game-over");
+const result = document.querySelector(".result");
 const playAgain = document.querySelector(".play-again");
 const startOver = document.querySelector(".start-over");
 const startBtn = document.querySelector(".start-game");
 const musicBtn = document.querySelector(".musicBtn");
 
-
 function startGame() {
   score = 0;
+  time = 0;
+  minutes = "";
+  seconds = 0;
+  tenthSeconds = 0;
   // Player sprite
   player = createSprite(50, windowHeight - 400, 15, 15);
   player.addAnimation("ghost", walkRight);
@@ -60,7 +70,16 @@ function startGame() {
   ];
 
   coins.forEach((item) => {
-    item.addAnimation("coin", "assets/sprites/coin.png");
+    item.addAnimation("coin", coin);
+    item.addAnimation("flippedCoin", flippedCoin);
+
+    setInterval(() => {
+      item.changeAnimation("flippedCoin");
+      setTimeout(() => {
+        item.changeAnimation("coin");
+      }, 250);
+    }, 500);
+
     coinsGroup.add(item);
   });
 
@@ -148,13 +167,16 @@ function restartGame() {
 }
 
 function preload() {
+  coin = loadAnimation("assets/sprites/coin.png");
+  flippedCoin = loadAnimation("assets/sprites/flippedcoin.png");
   walkRight = loadAnimation("assets/sprites/ghost-right.png");
   walkLeft = loadAnimation("assets/sprites/ghost-left.png");
   jumpRight = loadAnimation("assets/sprites/ghost-right-jump.png");
   jumpLeft = loadAnimation("assets/sprites/ghost-left-jump.png");
   bg = loadImage("/assets/sprites/background.png");
   sound = new Audio("assets/sounds/coin.mp3");
-  bgmusic = new Audio("assets/sounds/bgmusic.mp3")
+  bgmusic = createAudio("assets/sounds/bgmusic.mp3");
+  cheering = new Audio("assets/sounds/cheering.mp3");
 }
 
 function setup() {
@@ -162,25 +184,25 @@ function setup() {
   // Canvas size
   createCanvas(windowWidth, windowHeight);
 
+  bgmusic.volume(0.2);
   bgmusic.play();
-
-  if (!isPlaying) {
-    textSize(48);
-    text("Press ENTER to start game", windowWidth / 3, windowHeight / 2);
-  }
-
   startGame();
 }
 
 function draw() {
   if (isPlaying) {
     background(bg);
-    textSize(35);
-    text(`Score: ${score}`, width - 300, 40);
+    textSize(25);
+    textFont("Nunito");
+    textAlign(CENTER);
+    fill(255);
+    text(`Time: ${time} | Score: ${score}/10`, windowWidth / 2, 40);
 
     if (score === 10) {
       isPlaying = false;
       gameOver.classList.add("show");
+      result.innerHTML = time;
+      cheering.play();
     }
 
     // Velocity and gravity constants
@@ -248,7 +270,6 @@ function draw() {
     // Renders all sprites on the canvas
     drawSprites();
   }
-
 }
 
 // Keyboard event listeners
@@ -265,6 +286,31 @@ function keyPressed() {
 function removeSprite() {
   this.remove();
 }
+
+//
+function timer() {
+  if (isPlaying) {
+    tenthSeconds++;
+
+    if (tenthSeconds / 10 === 1) {
+      seconds++;
+      tenthSeconds = 0;
+    }
+
+    if (seconds > 59) {
+      minutes++;
+      seconds = 0;
+      tenthSeconds = 0;
+    }
+
+    if (minutes > 0) {
+      time = minutes + "." + seconds + "." + tenthSeconds;
+    } else {
+      time = seconds + "." + tenthSeconds;
+    }
+  }
+}
+setInterval(timer, 100);
 
 // Button event listener prompt after collecting all the coins
 startOver.addEventListener("click", () => {
@@ -284,16 +330,17 @@ startBtn.addEventListener("click", () => {
   startScreen.classList.add("hidden");
   startOver.classList.remove("hidden");
   musicBtn.classList.remove("hidden");
-})
+});
 
+// Button event listener toggle music at the bottom of the screen
 musicBtn.addEventListener("click", () => {
   if (musicOn) {
-     bgmusic.pause();
-     musicBtn.innerHTML = "Sound on";
-     musicOn = false;
+    bgmusic.pause();
+    musicBtn.innerHTML = "Music on";
+    musicOn = false;
   } else {
     bgmusic.play();
-    musicBtn.innerHTML = "Sound off";
+    musicBtn.innerHTML = "Music off";
     musicOn = true;
   }
-})
+});

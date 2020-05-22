@@ -8,6 +8,8 @@ let jumpRight;
 let jumpLeft;
 let isMovingRight;
 let sound;
+let bgmusic;
+let cheering;
 let coins;
 let obstacles;
 let rockObstacle;
@@ -173,7 +175,8 @@ function preload() {
   jumpLeft = loadAnimation("assets/sprites/ghost-left-jump.png");
   bg = loadImage("/assets/sprites/background.png");
   sound = new Audio("assets/sounds/coin.mp3");
-  bgmusic = new Audio("assets/sounds/bgmusic.mp3");
+  bgmusic = createAudio("assets/sounds/bgmusic.mp3");
+  cheering = new Audio("assets/sounds/cheering.mp3");
 }
 
 function setup() {
@@ -181,13 +184,8 @@ function setup() {
   // Canvas size
   createCanvas(windowWidth, windowHeight);
 
+  bgmusic.volume(0.2);
   bgmusic.play();
-
-  if (!isPlaying) {
-    textSize(48);
-    text("Press ENTER to start game", windowWidth / 3, windowHeight / 2);
-  }
-
   startGame();
 }
 
@@ -195,13 +193,16 @@ function draw() {
   if (isPlaying) {
     background(bg);
     textSize(25);
-    text(`Score: ${score}/10`, width - 300, 40);
-    text(`Time: ${time}`, width - 600, 40);
+    textFont("Nunito");
+    textAlign(CENTER);
+    fill(255);
+    text(`Time: ${time} | Score: ${score}/10`, windowWidth / 2, 40);
 
-    if (score === 2) {
+    if (score === 10) {
       isPlaying = false;
       gameOver.classList.add("show");
       result.innerHTML = time;
+      cheering.play();
     }
 
     // Velocity and gravity constants
@@ -335,11 +336,11 @@ startBtn.addEventListener("click", () => {
 musicBtn.addEventListener("click", () => {
   if (musicOn) {
     bgmusic.pause();
-    musicBtn.innerHTML = "Sound on";
+    musicBtn.innerHTML = "Music on";
     musicOn = false;
   } else {
     bgmusic.play();
-    musicBtn.innerHTML = "Sound off";
+    musicBtn.innerHTML = "Music off";
     musicOn = true;
   }
 });

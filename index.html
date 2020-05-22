@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ghastly Jump</title>
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <div class="start-screen">
       <div class="container">
         <h1>Ghastly Jump</h1>
+        <p>Collect all the coins to win the game.</p>
         <div class="arrows">
           <div>
             <img class="left-arrow" src="assets/sprites/up-arrow.png" alt="" />
@@ -30,14 +33,14 @@
 
     <div class="game-over">
       <div class="game-over-container">
-        <h1>Congratulations! You have beaten the game.</h1>
-        <h3 >Time: <span class="result"></span></h3>
-        <button class="play-again">Play again</button>
+        <h2>Congratulations! <br>You have beaten the game.</h2>
+        <p>Time: <span class="result"></span> seconds</p>
+        <button class="play-again">PLAY AGAIN!</button>
       </div>
     </div>
 
     <button class="start-over hidden">Start over</button>
-    <button class="musicBtn hidden">Sound off</button>
+    <button class="musicBtn hidden">Music off</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
     <script src="index.js"></script>

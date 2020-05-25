@@ -55,3 +55,13 @@ You can play the game [here](https://ghastlyjump.netlify.app/).
 * index.js, line 185. Not 100% sure that it was a criteria for this project, but if you add WEBGL after windowHeight in createCanvas(windowWidth, windowHeight); the game breaks.
 * p5play.js, line 38. Not sure what this does, but it’s kind of consfusing. On this line, the default frame rate is set to 30. But in index.js the frame rate is set to 60. (line 183) It’s obviously working, but it’s confusing me a bit.
 * I’m not able to find anything else to comment on really, the code is well written and documented. One thing I would like to add to the game is being able to choose if I want to control the character using arrows or WASD.
+
+[Viktor Sjöblom](https://github.com/ViktorSjoblom)s notes:
+
+* Try to divide your .js files into seperate files in order to keep the files sctructured. (eg. functions.js, data.js etc.)
+* Variable and function names are consistent, and easily understood.
+* Good usage of .gitignore (not including the DS_Store-file.)
+* Maybe use a .editorconfig aswell? To have some standard values. Could be useful.
+* Don’t forget to add a LICENSE-file to your git project. 
+
+- Your game is really fun and this is no doubt a very well organized project. Great job!

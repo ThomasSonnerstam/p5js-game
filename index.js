@@ -136,7 +136,7 @@ function startGame() {
     obstacle16.rotation += 90;
     obstacle19.rotation += 90;
     obstacle21.rotation += 90;
-  }, 1800);
+  }, 2300);
 
   spear = new Group();
 
